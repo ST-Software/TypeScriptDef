@@ -161,5 +161,3 @@ interface UnderscoreChain {
 
 
 declare var _: Underscore;
-
-_.chain([1, 2, 4]).first().value();
