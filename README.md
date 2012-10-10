@@ -9,9 +9,10 @@ This project includes typescript definition for libraries we used internally for
 * underscore.js
 * backbone.js
 * handlebars.js
+* jasmine.js
+* bootstrap.js
 
 #Partial definition
-* bootstrap.js
 * moment.js
 
 #We would like to have
