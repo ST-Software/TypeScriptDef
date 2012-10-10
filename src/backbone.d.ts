@@ -24,16 +24,19 @@ declare module Backbone {
     interface BackboneXMLHttpRequest extends XMLHttpRequest, JQueryPromise { }
 
     export class Model implements EventsInteface {
-        constructor (attr? , opts? );
+        constructor (attributes?);
         id: any;
         idAttribute: string;
         cid: string;
         attributes: any;
         changed: any;
-        defaults: any;
+        //we cannot declare 'defaults' property, because we have declared 'defaults' as a method
+        //defaults: any;
+        defaults(): any;
+        //we cannot declare 'url'/'urlRoot' properties, because we have declared 'url'/'urlRoot' as a method
         //url: string;
         //urlRoot: string;
-
+        collection: any; //this could be type of Collection, but we can have our own methods/properties on our collection and they would be hidden for intellisense. Waiting for generics in TypeScript...
         get(name: string): any;
         set(attrs: any, opts?: Options): void;
         set(attrName: string, attrValue: any): void;
@@ -44,7 +47,7 @@ declare module Backbone {
         toJSON(): any;
         fetch(opts?: any): BackboneXMLHttpRequest;
         save(attrs?: any , opts?: Options): BackboneXMLHttpRequest;
-        destroy(opts?: Options): void;        
+        destroy(opts?: Options): void;
         validate(attrs: any): void;
         isValid(): bool;
         url(): string;
@@ -61,13 +64,11 @@ declare module Backbone {
         // Event interface
         on(ev: string, f: Function, ctx?: any): void;
         off(ev: string, f?: Function, ctx?: any): void;
-        trigger(eventName: string, ...params: any[]);        
-
+        trigger(eventName: string, ...params: any[]);
     }
 
     export class Collection implements EventsInteface {
-        constructor (attrs?: any, opts?: Options);
-        collection: any;
+        constructor (models?: any[], opts?: Options);
         length: number;
         create(attrs, opts?: Options): Collection;
         each(f: (elem: any) => void ): void;
@@ -78,20 +79,21 @@ declare module Backbone {
         without(...values: any[]): Collection;
         where(attrs): Model[];
         toJSON(): any;
+        models: Model[];
 
         // Event interface
         on(ev: string, f: Function, ctx?: any): void;
         off(ev: string, f?: Function, ctx?: any): void;
-        trigger(eventName: string, ...params: any[]);                
+        trigger(eventName: string, ...params: any[]);
     }
 
     export class View {
-        constructor (options? );
-        initialize (options?);
-        $(selector: string): any;
+        constructor (options?: any);
+        initialize (options?: any);
+        $(selector: string): JQuery;
         el: HTMLElement;
-        $el: any;
-        collection: any;
+        $el: JQuery;
+        collection: any; //this could be type of Collection, but we can have our own methods/properties on our collection and they would be hidden for intellisense. Waiting for generics in TypeScript...
         model: Model;
         remove(): void;
         delegateEvents: any;
